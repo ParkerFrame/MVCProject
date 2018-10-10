@@ -1,1 +1,6 @@
 Hello! Welcome to my Home Controller
+
+Public actionresult Index()
+{
+Return view();
+}
