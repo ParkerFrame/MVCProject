@@ -23,6 +23,10 @@
 ```
 - Now create the database model by right clicking the Models folder and choosing Add | Class
 - Name it the table name
+	- Remember that columns named ID or with ID at the end of the name will be primary keys
+	- You can add the attribute `[DatabaseGenerated(DatabaseGeneratedOption.None)]` to turn off the system trying to maintain int primary keys
+	- Add the [Table] and [Key] annotations (along with other annotations)
+
 
 ```c#
 namespace BlowOut.Models
@@ -69,6 +73,25 @@ namespace BlowOut.Models
         [Display(Name = "Phone Number")]
         [Required(ErrorMessage = "An Phone Number is required")]
         public string clientPhone { get; set; }
+    }
+}
+```
+
+- Modify Global.asax file to include using for models and the folder that will contain the context class
+```c#
+namespace BlowOut
+{
+    public class MvcApplication : System.Web.HttpApplication
+    {
+        protected void Application_Start()
+        {
+            Database.SetInitializer<InstrumentRentalContext>(null);
+
+            AreaRegistration.RegisterAllAreas();
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
     }
 }
 ```
