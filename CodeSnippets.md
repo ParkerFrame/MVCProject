@@ -121,11 +121,35 @@ namespace BlowOut
     }
 }
 ```
+- Add a new folder to the project called DAL
+- Add a new class to this folder called NBAContext.cs
+- NOTE: This is the name of your dbContext variable and string in the connection string (web.config)
+
+```c#
+namespace FantasyBasketball.DAL
+{
+    public class NBAContext : DbContext
+    {
+        public NBAContext() : base("NBAContext")
+        {
+
+        }
+
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<Player> Players { get; set; }
+        public DbSet<Position> Positions { get; set; }
+    }
+}
+```
+- BUILD THE PROJECT
+- Now go add scaffolded controllers making sure that generate views is selected and adding the model and the context to the scaffolding
+	- You can do this by right mouse clicking on the controller folder and choosing New Scaffolded Item.
+	- Choose MVC 5 Controller with views, using EntityFramework. Click Add
+	- In the Model class click on the down arrow and choose Player. Click Add
+- Save and build the project
+- Run the project
 
 
-
-
-  
 
  
   
