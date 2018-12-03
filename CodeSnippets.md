@@ -103,7 +103,7 @@ namespace BlowOut.Models
 }
 ```
 
-- Modify Global.asax file to include using for models and the folder that will contain the context class
+- Modify Global.asax file to include using for models and the folder that will contain the context class (It's the Database.Set)
 ```c#
 namespace BlowOut
 {
