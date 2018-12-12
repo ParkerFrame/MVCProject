@@ -149,7 +149,35 @@ namespace FantasyBasketball.DAL
 - Save and build the project
 - Run the project
 
+## Helpful Code
 
+- To create a login method
+```c#
+// GET: Home
+public ActionResult Login()
+{
+    return View();
+}
+
+[HttpPost]
+public ActionResult Login(FormCollection form, bool rememberMe = false)
+{
+    string username = form["Username"].ToString();
+
+
+    string password = form["Password"].ToString();
+
+    if ((string.Equals(username, "Missouri")) && (string.Equals(password, "ShowMe")))
+    {
+	FormsAuthentication.SetAuthCookie(username, rememberMe);
+	return RedirectToAction("UpdateData");
+    }
+    else
+    {
+	return View();
+    }
+}
+```
 
  
   
