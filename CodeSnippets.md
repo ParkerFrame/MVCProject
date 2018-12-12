@@ -152,6 +152,7 @@ namespace FantasyBasketball.DAL
 ## Helpful Code
 
 - To create a login method
+- Be weary of SQL Statement syntax!!!
 ```c#
 // GET: Home
 public ActionResult Login()
@@ -162,21 +163,43 @@ public ActionResult Login()
 [HttpPost]
 public ActionResult Login(FormCollection form, bool rememberMe = false)
 {
-    string username = form["Username"].ToString();
+    String email = form["Email address"].ToString();
+    String password = form["Password"].ToString();
 
+    var currentUser = db.Database.SqlQuery<Users>(
+    "Select * " +
+    "FROM Users " +
+    "WHERE UserID = '" + email + "' AND " +
+    "UserPassword = '" + password + "'");
 
-    string password = form["Password"].ToString();
-
-    if ((string.Equals(username, "Missouri")) && (string.Equals(password, "ShowMe")))
+    if (currentUser.Count() > 0)
     {
-	FormsAuthentication.SetAuthCookie(username, rememberMe);
-	return RedirectToAction("UpdateData");
+	FormsAuthentication.SetAuthCookie(email, rememberMe);
+	return RedirectToAction("Index", "Home", new { userlogin = email });
     }
     else
     {
 	return View();
     }
 }
+```
+
+- The form for the Login view
+```c#
+<body>
+    <div class="jumbotron">
+        <div class="container">
+            @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+            {
+                <label for="inputEmail">Email address</label>
+                @Html.TextBox("Email address")
+                <label for="inputPassword">Password</label>
+                @Html.Password("Password")
+                <button type="submit">Login</button>  
+            }
+        </div>
+    </div>
+</body>
 ```
 
  
