@@ -151,7 +151,7 @@ namespace FantasyBasketball.DAL
 
 ## Helpful Code
 
-- To create a login method
+### To create a login method
 - Be weary of SQL Statement syntax!!!
 ```c#
 // GET: Home
@@ -184,8 +184,22 @@ public ActionResult Login(FormCollection form, bool rememberMe = false)
 }
 ```
 
-- The form for the Login view
+### The form for the Login view
 ```c#
+@model BlowOut.Models.Instrument
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>User Login</h2>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>RsvpForm</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</head>
 <body>
     <div class="jumbotron">
         <div class="container">
