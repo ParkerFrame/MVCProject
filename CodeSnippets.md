@@ -426,3 +426,15 @@ public ActionResult Summary(string BookName)
     <input type="submit" value="Submit">
 </form>
 ```
+### For shwoing list of current user items
+```c#
+public ActionResult MyBooks()
+{
+    //var books = db.Books.Include(b => b.o);
+    IEnumerable<Book> books = db.Database.SqlQuery<Book>(
+  "SELECT * FROM Book, Person WHERE Book.PersonID = Person.PersonID AND Person.Username = '" + oPerson.Username + "'");
+
+    return View(books.ToList());
+}
+```
+- then just scaffold a view from the method using a list and the book model
