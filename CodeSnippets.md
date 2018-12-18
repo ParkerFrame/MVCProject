@@ -397,6 +397,19 @@ public ActionResult Summary(string BookName)
             var books = db.Books.Include(b => b.Author).Include(b => b.Genre).Where(a => a.Author.AuthorFirstName == firstname).Where(a => a.Author.AuthorLastName == lastname).Where(a => a.BookName == title);
             return View(books);
         }
+	
+	
+	  public ActionResult Search()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Search(string authorname)
+        {
+            var books = db.Books.Where(a => a.BookAuthor == authorname);
+            return View("Results", books.ToList());
+        }
 ```
 - This is the serach form for the view
 ```c#
