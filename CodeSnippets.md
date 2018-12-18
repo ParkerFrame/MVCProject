@@ -321,3 +321,62 @@ public ActionResult Login(FormCollection form, bool rememberMe = false)
     </div>
   </div>
  ```
+### Get and Post for confirmation and summary methods
+```c#
+//Get
+public ActionResult Rent()
+{
+    return View();
+}
+
+[HttpPost]
+public ActionResult Rent(Person person, int id, int id2)
+{
+    Book book = db.Books.Find(id);
+    person = db.People.Find(id2);
+
+    book.PersonID = person.PersonID;
+    book.Status = false;
+    db.SaveChanges();
+
+    return RedirectToAction("Summary", new { book.BookName});
+}
+
+public ActionResult Summary(string BookName)
+{
+    ViewBag.BookName = BookName;
+    return View();
+}
+```
+### Rent confirmation view
+```c#
+@{
+    ViewBag.Title = "Rent";
+}
+<link href="~/Content/myStyles.css" rel="stylesheet" />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Are you sure you want to rent this book?</h4>
+        <br />
+        <input type="submit" value="Rent" class="btn btn-default" />
+        <br /><br /><br /><br />
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Catalog")
+</div>
+```
+### Rent summary view
+```c#
+
+@{
+    ViewBag.Title = "Summary";
+}
+
+<h2>Summary</h2>
+
+<h3>Thank you <strong>@FinalLibraryPractice.Controllers.HomeController.oPerson.FirstName</strong> for renting a @ViewBag.BookName</h3>
+```
