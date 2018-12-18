@@ -150,7 +150,11 @@ namespace ProjectName.DAL
 - Run the project
 
 ## Helpful Code
-
+### Add this to Home Controller for Static object and Database access
+```c#
+ public static LibraryCatalogContext db = new LibraryCatalogContext();
+ public static Person oPerson = new Person();
+```
 ### To create a login method
 - Be weary of SQL Statement syntax!!!
 ```c#
