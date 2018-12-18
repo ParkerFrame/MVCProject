@@ -255,5 +255,14 @@ public ActionResult Login(FormCollection form, bool rememberMe = false)
     @RenderSection("scripts", required: false)
 </body>
 ```
- 
+### Authentication to add
+```c#
+<system.web>
+  <compilation debug="true" targetFramework="4.6.1" />
+  <httpRuntime targetFramework="4.6.1" />
+  <authentication mode="Forms">
+    <forms loginUrl="~/Home/Login" timeout="2880" />
+  </authentication>
+</system.web>
+```
   
