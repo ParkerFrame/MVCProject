@@ -111,7 +111,7 @@ namespace BlowOut
     {
         protected void Application_Start()
         {
-            Database.SetInitializer<InstrumentRentalContext>(null);
+            Database.SetInitializer<DALName>(null);
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -126,11 +126,11 @@ namespace BlowOut
 - NOTE: This is the name of your dbContext variable and string in the connection string (web.config)
 
 ```c#
-namespace FantasyBasketball.DAL
+namespace ProjectName.DAL
 {
-    public class NBAContext : DbContext
+    public class DALName : DbContext
     {
-        public NBAContext() : base("NBAContext")
+        public DALName() : base("DALName")
         {
 
         }
