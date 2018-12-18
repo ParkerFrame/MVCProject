@@ -384,3 +384,32 @@ public ActionResult Summary(string BookName)
 
 <h3>Thank you <strong>@FinalLibraryPractice.Controllers.HomeController.oPerson.FirstName</strong> for renting a @ViewBag.BookName</h3>
 ```
+### Code for methods for a search
+```c#
+   public ActionResult Search()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Search(string firstname, string lastname, string title)
+        {
+            var books = db.Books.Include(b => b.Author).Include(b => b.Genre).Where(a => a.Author.AuthorFirstName == firstname).Where(a => a.Author.AuthorLastName == lastname).Where(a => a.BookName == title);
+            return View(books);
+        }
+```
+- This is the serach form for the view
+```c#
+<form method="post">
+    Author First Name:<br>
+    <input type="text" name="firstname" placeholder="Steve">
+    <br>
+    Author Last name:<br>
+    <input type="text" name="lastname" placeholder="Jobs">
+    <br />
+    Book Title:<br>
+    <input type="text" name="title" placeholder="Jobs">
+    <br><br>
+    <input type="submit" value="Submit">
+</form>
+```
