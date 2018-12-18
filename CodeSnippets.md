@@ -31,49 +31,95 @@
 ```c#
 namespace BlowOut.Models
 {
-    [Table("Client")]
-    public class Client
+   [Table("Book")]
+    public class Book
     {
         [Key]
-        [Display(Name = "ID Number")]
-        public int clientID { get; set; }
+        //[Display(Name = "ID Number")]
+        public int BookID { get; set; }
 
-        [Required(ErrorMessage = "A First Name is required")]
-        [Display(Name ="First Name")]
-        public string firstName { get; set; }
+        //[Required(ErrorMessage = "A Book Name is required")]
+        //[Display(Name = "Book Name")]
+        public string BookName { get; set; }
 
-        [Required(ErrorMessage = "A Last Name is required")]
-        [Display(Name = "Last Name")]
-        public string lastName { get; set; }
+        //[Required(ErrorMessage = "A Book Author is required")]
+        //[Display(Name = "Book Author")]
+        public string BookAuthor { get; set; }
 
-        [Required(ErrorMessage = "An Address is required")]
-        [Display(Name = "Address")]
-        public string clientAddress { get; set; }
+        //[Required(ErrorMessage = "A Book Name is required")]
+        //[Display(Name = "Page Length")]
+        public int PageLength { get; set; }
 
-        [Required(ErrorMessage = "A City is required")]
-        [Display(Name = "City")]
-        public string clientCity { get; set; }
+        //[Required(ErrorMessage = "A Book Name is required")]
+        //[Display(Name = "Book Status")]
+        public bool? Status { get; set; }
 
-        [Required(ErrorMessage = "A State is required")]
-        [Display(Name = "State")]
-        public string clientState { get; set; }
+        
 
-        [Required(ErrorMessage = "A Zip Code is required")]
-        [Display(Name = "Zip Code")]
-        [RegularExpression(@"^[0-9]{0,15}$", ErrorMessage = "Zip Code should contain only numbers")]
-        [StringLength(255, MinimumLength = 5, ErrorMessage = "Invalid Zip. Must be 5 numerical digits")]
-        public string clientZip { get; set; }
-
-        [Required(ErrorMessage = "An Email is required")]
-        [Display(Name = "Email")]
-        [RegularExpression(@"[\w-]+@([\w -]+\.)+[\w-]+", ErrorMessage = "Email should follow the format of: test@test.com")]
-        public string clientEmail { get; set; }
-
-        [RegularExpression(@"^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$", ErrorMessage = "Phone Numbers should follow the format of: (123) 456-7890")]
-        [Display(Name = "Phone Number")]
-        [Required(ErrorMessage = "An Phone Number is required")]
-        public string clientPhone { get; set; }
+        public int? PersonID { get; set; }
+        public virtual Person Person { get; set; }
     }
+}
+```
+```c#
+namespace BlowOut.Models
+{
+     [Table("Person")]
+    public class Person
+    {
+        [Key]
+        //[Display(Name = "ID Number")]
+        public int PersonID { get; set; }
+
+        //[Required(ErrorMessage = "A First Name is required")]
+        //[Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        //[Required(ErrorMessage = "A Last Name is required")]
+        //[Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        //[Required(ErrorMessage = "An Email is required")]
+        //[Display(Name = "Email")]
+        //[RegularExpression(@"[\w-]+@([\w -]+\.)+[\w-]+", ErrorMessage = "Email should follow the format of: test@test.com")]
+        public string Email { get; set; }
+
+        //[Required(ErrorMessage = "An Address is required")]
+        //[Display(Name = "Address")]
+        public string Address { get; set; }
+
+        //[RegularExpression(@"^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$", ErrorMessage = "Phone Numbers should follow the format 		of: (123) 456-7890")]
+        //[Display(Name = "Phone Number")]
+        //[Required(ErrorMessage = "An Phone Number is required")]
+        public string Phone { get; set; }
+
+        public int RoleID { get; set; }
+        public virtual Role Role { get; set; }
+
+        //[Required(ErrorMessage = "An username is required")]
+        //[Display(Name = "Username")]
+        public string Username { get; set; }
+
+        //[Required(ErrorMessage = "A Password is required")]
+        //[Display(Name = "Password")]
+        public string Password { get; set; }
+
+       
+    }
+}
+```
+```c#
+[Table("Role")]
+public class Role
+{
+[Key]
+//[Display(Name = "ID Number")]
+public int RoleID { get; set; }
+
+//[Required(ErrorMessage = "A Role Description is required")]
+//[Display(Name = "Role Description")]
+public string RoleDescription { get; set; }
+
 }
 ```
 Or for the virtual table to be linked, use this:
@@ -212,7 +258,27 @@ public ActionResult Login(FormCollection form, bool rememberMe = false)
     }
 }
 ```
+- Or use this if you want to hardcode it
+```c#
+[HttpPost]
+public ActionResult Login(FormCollection form, bool rememberMe = false)
+{
+String email = form["Email address"].ToString();
+String password = form["Password"].ToString();
 
+if (string.Equals(email, "greg@test.com") && (string.Equals(password, "greg")))
+{
+FormsAuthentication.SetAuthCookie(email, rememberMe);
+
+return RedirectToAction("Index", "Home");
+
+}
+else
+{
+return View();
+}
+}
+```
 ### The form for the Login view
 ```c#
 @model BlowOut.Models.Instrument
