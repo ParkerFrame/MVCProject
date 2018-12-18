@@ -154,28 +154,53 @@ namespace ProjectName.DAL
 ### To create a login method
 - Be weary of SQL Statement syntax!!!
 ```c#
-// GET: Home
+[HttpGet]
+[AllowAnonymous]
 public ActionResult Login()
 {
     return View();
 }
-
+[AllowAnonymous]
 [HttpPost]
 public ActionResult Login(FormCollection form, bool rememberMe = false)
 {
-    String email = form["Email address"].ToString();
+    String username = form["Username"].ToString();
     String password = form["Password"].ToString();
 
-    var currentUser = db.Database.SqlQuery<Users>(
+    var Customer = db.Database.SqlQuery<Person>(
     "Select * " +
-    "FROM Users " +
-    "WHERE UserID = '" + email + "' AND " +
-    "UserPassword = '" + password + "'");
+    "FROM Person " +
+    "WHERE Username = '" + username + "' AND " +
+    "RoleID = 1 AND " +
+    "Password = '" + password + "'").ToList();
 
-    if (currentUser.Count() > 0)
+    var Admin = db.Database.SqlQuery<Person>(
+    "Select * " +
+    "FROM Person " +
+    "WHERE Username = '" + username + "' AND " +
+    "RoleID = 2 AND " +
+    "Password = '" + password + "'").ToList();
+
+    if (Customer.Count() > 0)
     {
-	FormsAuthentication.SetAuthCookie(email, rememberMe);
-	return RedirectToAction("Index", "Home", new { userlogin = email });
+	FormsAuthentication.SetAuthCookie(username, rememberMe);
+	//string CustomerName = Customer[0].FirstName + " " + Customer[0].LastName;
+
+	oPerson.PersonID = Customer[0].PersonID;
+	oPerson.FirstName = Customer[0].FirstName;
+
+	return RedirectToAction("Index", "Home", new { userlogin = username });
+    }
+    else if (Admin.Count() > 0)
+    {
+	FormsAuthentication.SetAuthCookie(username, rememberMe);
+
+	oPerson.PersonID = Admin[0].PersonID;
+	oPerson.FirstName = Admin[0].FirstName;
+
+	//string AdminName = Admin[0].FirstName + " " + Admin[0].LastName;
+
+	return RedirectToAction("Index", "Home", new { userlogin = username });
     }
     else
     {
