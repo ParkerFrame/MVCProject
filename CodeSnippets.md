@@ -290,4 +290,34 @@ public ActionResult Login(FormCollection form, bool rememberMe = false)
   </authentication>
 </system.web>
 ```
-  
+ 
+ ### To make dropdown
+ - In the Edit get controller method
+ ```c#
+  // GET: Books/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Book book = db.Books.Find(id);
+            if (book == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.PersonID = new SelectList(db.People, "PersonID", "FirstName", book.PersonID);
+            #####ViewBag.ListBooks = db.Books.ToList();#####
+            return View(book);
+        }
+ ```
+ - And then add this in the Edit view
+ ```c#
+ <div class="form-group">
+    @Html.LabelFor(model => model.BookName, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+	#####@Html.DropDownListFor(model => model.BookName, new SelectList(ViewBag.ListBooks, "BookID", "BookName"))#####
+	@Html.ValidationMessageFor(model => model.BookName, "", new { @class = "text-danger" })
+    </div>
+  </div>
+ ```
