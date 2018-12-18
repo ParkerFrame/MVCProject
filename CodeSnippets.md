@@ -122,33 +122,6 @@ public string RoleDescription { get; set; }
 
 }
 ```
-Or for the virtual table to be linked, use this:
-
-```c#
-namespace BlowOut.Models
-{
-    [Table("Instrument")]
-    public class Instrument
-    {
-        [Key]
-        public int instrumentID { get; set; }
-
-        [Display(Name = "Description")]
-        public string instruDescription { get; set; }
-
-        [Display(Name = "Price")]
-        public string instruPrice { get; set; }
-
-        [Display(Name = "Type")]
-        public string instruType { get; set; }
-	
-	[ForeignKey("Client")]
-        public virtual int? clientID { get; set; }
-        public virtual Client Client { get; set; }
-    }
-}
-```
-
 - Modify Global.asax file to include using for models and the folder that will contain the context class (It's the Database.Set)
 ```c#
 namespace BlowOut
