@@ -21,6 +21,44 @@
       providerName="System.Data.SqlClient" />
   </connectionStrings>
 ```
+- Modify Global.asax file to include using for models and the folder that will contain the context class (It's the Database.Set)
+```c#
+namespace BlowOut
+{
+    public class MvcApplication : System.Web.HttpApplication
+    {
+        protected void Application_Start()
+        {
+            Database.SetInitializer<DALName>(null);
+
+            AreaRegistration.RegisterAllAreas();
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+    }
+}
+```
+- Add a new folder to the project called DAL
+- Add a new class to this folder called NBAContext.cs
+- NOTE: This is the name of your dbContext variable and string in the connection string (web.config)
+
+```c#
+namespace ProjectName.DAL
+{
+    public class DALName : DbContext
+    {
+        public DALName() : base("DALName")
+        {
+
+        }
+
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<Player> Players { get; set; }
+        public DbSet<Position> Positions { get; set; }
+    }
+}
+```
 - Now create the database model by right clicking the Models folder and choosing Add | Class
 - Name it the table name
 	- Remember that columns named ID or with ID at the end of the name will be primary keys
@@ -122,44 +160,7 @@ public string RoleDescription { get; set; }
 
 }
 ```
-- Modify Global.asax file to include using for models and the folder that will contain the context class (It's the Database.Set)
-```c#
-namespace BlowOut
-{
-    public class MvcApplication : System.Web.HttpApplication
-    {
-        protected void Application_Start()
-        {
-            Database.SetInitializer<DALName>(null);
 
-            AreaRegistration.RegisterAllAreas();
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
-        }
-    }
-}
-```
-- Add a new folder to the project called DAL
-- Add a new class to this folder called NBAContext.cs
-- NOTE: This is the name of your dbContext variable and string in the connection string (web.config)
-
-```c#
-namespace ProjectName.DAL
-{
-    public class DALName : DbContext
-    {
-        public DALName() : base("DALName")
-        {
-
-        }
-
-        public DbSet<Team> Teams { get; set; }
-        public DbSet<Player> Players { get; set; }
-        public DbSet<Position> Positions { get; set; }
-    }
-}
-```
 - BUILD THE PROJECT
 - Now go add scaffolded controllers making sure that generate views is selected and adding the model and the context to the scaffolding
 	- You can do this by right mouse clicking on the controller folder and choosing New Scaffolded Item.
