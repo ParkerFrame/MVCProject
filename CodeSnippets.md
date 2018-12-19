@@ -438,7 +438,9 @@ public ActionResult Summary(string BookName)
             return View(books);
         }
 	
-	
+```
+The simpler search
+```c#
 	  public ActionResult Search()
         {
             return View();
